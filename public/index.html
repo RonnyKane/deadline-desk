@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deadline Desk — renewals &amp; hard cutoffs</title>
+    <meta
+      name="description"
+      content="Hard deadlines board for a Florida landlord + small dealer. Browse insurance, leases, tags, licenses, and vendor contracts. Simulated Alexa+ chat calls list_upcoming_deadlines, get_deadline_detail, mark_handled, and suggest_prep_checklist on the same data."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to board</a>
+    <header class="mast">
+      <div class="brand">
+        <img src="/favicon.svg" width="40" height="40" alt="" />
+        <div>
+          <p class="eyebrow">FL landlord + dealer ops · Alexa+ Path B</p>
+          <h1>Deadline Desk</h1>
+        </div>
+      </div>
+      <p class="lede">
+        What dies if you ignore it — insurance, leases, tags, licenses, vendor contracts.
+        Humans browse the board; Alexa+ (sim) calls the same tools.
+      </p>
+      <div class="mast-meta" id="mast-meta">
+        <span class="pill" id="webmcp-pill" data-state="checking">WebMCP…</span>
+        <span class="pill" id="agent-pill" data-state="idle">Agent idle</span>
+        <span class="pill quiet" id="store-pill">store —</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="rail">
+        <form id="filters" class="card blotter">
+          <h2>Horizon</h2>
+          <label>
+            Days ahead
+            <input id="days" name="days" type="range" min="7" max="365" step="1" value="90" />
+            <strong id="days-label">90 days</strong>
+          </label>
+          <label>
+            Category
+            <select id="category" name="category">
+              <option value="all" selected>All categories</option>
+              <option value="insurance">Insurance</option>
+              <option value="lease">Lease</option>
+              <option value="registration">Registration / tags</option>
+              <option value="license">License</option>
+              <option value="vendor">Vendor</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label>
+            Search
+            <input id="q" name="q" type="search" placeholder="Oak St, dealer, flood…" autocomplete="off" />
+          </label>
+          <label class="check">
+            <input id="handled" name="include_handled" type="checkbox" />
+            Include handled / renewed
+          </label>
+        </form>
+
+        <section class="card blotter tools" aria-labelledby="tools-h">
+          <h2 id="tools-h">Shared tools</h2>
+          <p class="hint">Same API for UI, Alexa+ sim, and optional WebMCP.</p>
+          <ol>
+            <li><code>list_upcoming_deadlines</code> — days + category filter</li>
+            <li><code>get_deadline_detail</code> — id; highlights the row</li>
+            <li><code>mark_handled</code> — handled / renewed; UI updates</li>
+            <li><code>suggest_prep_checklist</code> — 2–5 concrete steps</li>
+          </ol>
+          <p class="hint" id="webmcp-help"></p>
+        </section>
+
+        <section class="card blotter log" aria-labelledby="log-h">
+          <h2 id="log-h">Agent activity</h2>
+          <ol id="agent-log">
+            <li class="empty">No tool calls yet. Use the Alexa+ simulator or WebMCP; the matching row lights up.</li>
+          </ol>
+        </section>
+      </aside>
+
+      <section class="stage">
+        <div class="spine" id="spine" aria-hidden="true"></div>
+        <div class="stage-head">
+          <h2 id="board">Upcoming deadlines</h2>
+          <p id="summary">Loading the desk…</p>
+        </div>
+        <div id="board-list" class="board" role="list"></div>
+      </section>
+
+      <aside class="right-rail">
+        <section class="detail card" id="detail" aria-live="polite">
+          <p class="eyebrow">Folder</p>
+          <h2 id="detail-title">Pick a row</h2>
+          <p id="detail-body">
+            Open a deadline for consequence, notes, and actions. Agents calling
+            <code>get_deadline_detail</code> open the same folder.
+          </p>
+          <dl id="detail-dl" hidden></dl>
+          <div id="detail-actions" class="actions" hidden>
+            <button type="button" id="btn-handled" class="btn">Mark handled</button>
+            <button type="button" id="btn-renewed" class="btn ghost">Mark renewed</button>
+            <button type="button" id="btn-checklist" class="btn ghost">Prep checklist</button>
+          </div>
+          <div id="checklist" hidden></div>
+        </section>
+
+        <section class="card chat" id="alexa" aria-labelledby="alexa-h">
+          <div class="chat-head">
+            <p class="eyebrow">Path B · simulated</p>
+            <h2 id="alexa-h">Alexa+</h2>
+          </div>
+          <div id="chat-log" class="chat-log" aria-live="polite">
+            <div class="bubble assistant">
+              Ask me what renews soon. I call the same tools as the board — not a stub.
+            </div>
+          </div>
+          <div class="chips">
+            <button type="button" data-chip="What renews in the next 30 days?">30-day renewals</button>
+            <button type="button" data-chip="Show insurance deadlines in 90 days">Insurance</button>
+            <button type="button" data-chip="Prep checklist for the selected deadline">Prep checklist</button>
+            <button type="button" data-chip="Mark the selected deadline handled">Mark handled</button>
+          </div>
+          <form id="chat-form" class="chat-form">
+            <input
+              id="chat-input"
+              type="text"
+              placeholder="Alexa, what tags expire this month?"
+              autocomplete="off"
+              aria-label="Alexa+ message"
+            />
+            <button type="submit" class="btn">Ask</button>
+          </form>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="colophon">
+      <p>
+        Demo seed data for a Florida landlord + small dealer. In-memory store resets on Worker cold start
+        (dates re-seed relative to today). Not legal, insurance, or tax advice.
+      </p>
+      <p>
+        MIT licensed · Amazon Developer Hackathon 2026 · Alexa+ track (Path B)
+      </p>
+    </footer>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

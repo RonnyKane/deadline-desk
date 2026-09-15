@@ -1,0 +1,35 @@
+{
+  "name": "deadline-desk",
+  "version": "1.0.0",
+  "private": false,
+  "license": "MIT",
+  "description": "Hard deadlines and renewals board for a Florida landlord + small dealer. Humans browse; a simulated Alexa+ chat calls the same tools against the same data layer. Optional WebMCP registerTool when document.modelContext exists.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "wrangler dev",
+    "dev:node": "node scripts/dev-server.mjs",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/verify-tools.mjs",
+    "verify": "node scripts/verify-tools.mjs",
+    "start": "wrangler dev"
+  },
+  "keywords": [
+    "alexa-plus",
+    "webmcp",
+    "deadlines",
+    "cloudflare",
+    "landlord",
+    "dealer"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RonnyKane/deadline-desk"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.9",
+    "typescript": "5.9.2",
+    "wrangler": "4.34.0"
+  }
+}
