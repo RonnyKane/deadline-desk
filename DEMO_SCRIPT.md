@@ -2,6 +2,10 @@
 
 Record one take: live URL (or local) + voiceover. Public YouTube for Devpost.
 
+- **Live:** https://deadline-desk.oldhambyron.workers.dev
+- **Published demo:** https://youtu.be/BQkXYTpgLiY
+- **Repo:** https://github.com/RonnyKane/deadline-desk
+
 **Before record:** Board loaded, horizon 90 days, Alexa+ panel visible, zoom so rows are readable.
 
 Suggested length: **2:00–2:45**.

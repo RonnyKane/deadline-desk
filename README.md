@@ -3,6 +3,9 @@
 Hard deadlines and renewals board for a **Florida landlord + small dealer**. One Cloudflare-hosted page is the source of truth for humans **and** a simulated Alexa+ agent.
 
 **Contest:** [Amazon Developer Hackathon 2026](https://amazonappdev2026.devpost.com/) — Alexa+ track, **Path B** (simulated Alexa+ web app first).  
+**Live:** https://deadline-desk.oldhambyron.workers.dev  
+**Demo:** https://youtu.be/BQkXYTpgLiY  
+**Repo:** https://github.com/RonnyKane/deadline-desk  
 **License:** MIT  
 **Stack:** Cloudflare Worker + static assets (`./public`), esbuild, wrangler 4.34.x (Node 20).
 
@@ -101,6 +104,8 @@ Mirrors EOL Desk patterns (Worker + `assets` → `./public` + esbuild) but is a 
 
 | Item | Value |
 |---|---|
-| Live URL | Deploy with `wrangler deploy` (see DEPLOY.md) |
-| Public repo | Suggested: `RonnyKane/deadline-desk` |
+| Live URL | https://deadline-desk.oldhambyron.workers.dev |
+| Public repo | https://github.com/RonnyKane/deadline-desk |
+| Demo video | https://youtu.be/BQkXYTpgLiY |
+| Contest | [Amazon Developer Hackathon 2026](https://amazonappdev2026.devpost.com/) — Alexa+ Path B · submit by Oct 23 2026 |
 | Tool names | `list_upcoming_deadlines`, `get_deadline_detail`, `mark_handled`, `suggest_prep_checklist` |

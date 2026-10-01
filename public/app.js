@@ -30,6 +30,22 @@ function daysPhrase(n) {
   return `${n} days`;
 }
 
+/** Human labels so judges see FL landlord vs dealer at a glance. */
+function domainLabel(domain) {
+  switch (domain) {
+    case "property":
+      return "FL rental";
+    case "dealership":
+      return "Honest Autos";
+    case "personal":
+      return "Personal";
+    case "ops":
+      return "Ops";
+    default:
+      return domain || "—";
+  }
+}
+
 function setPill(el, text, dataState) {
   el.textContent = text;
   if (dataState) el.dataset.state = dataState;
@@ -69,7 +85,7 @@ async function boot() {
       "Path B: use the Alexa+ simulator on this page. Optional: enable chrome://flags/#enable-webmcp-testing for document.modelContext.registerTool.";
   }
 
-  setPill($("agent-pill"), "Agent idle", "idle");
+  setPill($("agent-pill"), "Last tool: idle", "idle");
   await refresh();
 }
 
@@ -130,13 +146,15 @@ function renderBoard() {
     btn.setAttribute("role", "listitem");
     if (row.id === state.selectedId) btn.classList.add("is-active");
     if (row.status !== "open") btn.classList.add("is-handled");
+    const domainText = domainLabel(row.domain);
     btn.innerHTML = `
       <div class="days">${escapeHtml(daysPhrase(row.daysRemaining))}<small>${escapeHtml(row.dueDate)}</small></div>
       <div>
         <h3>${escapeHtml(row.title)}</h3>
-        <p class="meta">${escapeHtml(row.entity)} · ${escapeHtml(row.category)} · ${escapeHtml(row.domain)}</p>
+        <p class="meta">${escapeHtml(row.entity)} · ${escapeHtml(row.category)}</p>
       </div>
       <div class="badges">
+        <span class="badge domain" data-domain="${escapeHtml(row.domain)}">${escapeHtml(domainText)}</span>
         <span class="badge cat">${escapeHtml(row.category)}</span>
         ${row.status !== "open" ? `<span class="badge done">${escapeHtml(row.status)}</span>` : ""}
         ${row.amountHint ? `<span class="badge">${escapeHtml(row.amountHint)}</span>` : ""}
@@ -172,7 +190,7 @@ async function openRow(id, opts = {}) {
     ["Id", detail.id],
     ["Category", detail.category],
     ["Entity", detail.entity],
-    ["Domain", detail.domain],
+    ["Domain", `${domainLabel(detail.domain)} (${detail.domain})`],
     ["Due", detail.dueDate],
     ["Status", detail.status],
     ["Amount", detail.amountHint || "—"],
@@ -310,7 +328,7 @@ function formatChat(text) {
 async function runAlexaTurn(text) {
   const thinking = document.createElement("div");
   thinking.className = "bubble assistant thinking";
-  thinking.textContent = "Alexa+ (sim) · calling tools…";
+  thinking.textContent = "Alexa+ simulator · invoking Worker tools…";
   $("chat-log").appendChild(thinking);
 
   try {

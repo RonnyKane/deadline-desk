@@ -30,6 +30,10 @@ npm run deploy
 
 Wrangler prints the `*.workers.dev` URL. That URL is judge-ready for Path B.
 
+**Current live:** https://deadline-desk.oldhambyron.workers.dev  
+**Repo:** https://github.com/RonnyKane/deadline-desk  
+**Demo video:** https://youtu.be/BQkXYTpgLiY
+
 ### Optional: custom domain
 
 In the Cloudflare dashboard → Workers → deadline-desk → Triggers → Custom Domains.

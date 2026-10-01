@@ -23,17 +23,18 @@
       <div class="brand">
         <img src="/favicon.svg" width="40" height="40" alt="" />
         <div>
-          <p class="eyebrow">FL landlord + dealer ops · Alexa+ Path B</p>
+          <p class="eyebrow">FL landlord + dealer · Amazon Alexa+ Path B</p>
           <h1>Deadline Desk</h1>
         </div>
       </div>
       <p class="lede">
-        What dies if you ignore it — insurance, leases, tags, licenses, vendor contracts.
-        Humans browse the board; Alexa+ (sim) calls the same tools.
+        Hard renewals for a Tampa landlord and small used-car dealer — insurance, leases, tags, licenses, vendor contracts.
+        One board for humans; a <strong>simulated Alexa+</strong> agent on this page calls the <strong>same four tools</strong> against the same Worker API.
       </p>
       <div class="mast-meta" id="mast-meta">
+        <span class="pill contest" title="Amazon Developer Hackathon 2026">Alexa+ Path B · Oct 23</span>
         <span class="pill" id="webmcp-pill" data-state="checking">WebMCP…</span>
-        <span class="pill" id="agent-pill" data-state="idle">Agent idle</span>
+        <span class="pill" id="agent-pill" data-state="idle">Last tool: idle</span>
         <span class="pill quiet" id="store-pill">store —</span>
       </div>
     </header>
@@ -70,13 +71,13 @@
         </form>
 
         <section class="card blotter tools" aria-labelledby="tools-h">
-          <h2 id="tools-h">Shared tools</h2>
-          <p class="hint">Same API for UI, Alexa+ sim, and optional WebMCP.</p>
-          <ol>
-            <li><code>list_upcoming_deadlines</code> — days + category filter</li>
-            <li><code>get_deadline_detail</code> — id; highlights the row</li>
-            <li><code>mark_handled</code> — handled / renewed; UI updates</li>
-            <li><code>suggest_prep_checklist</code> — 2–5 concrete steps</li>
+          <h2 id="tools-h">Judge-visible tools</h2>
+          <p class="hint">Real Worker tools — UI, Alexa+ simulator, and optional WebMCP share one invoke path.</p>
+          <ol class="tool-list">
+            <li><code>list_upcoming_deadlines</code><span>days + category filter</span></li>
+            <li><code>get_deadline_detail</code><span>id · highlights the row</span></li>
+            <li><code>mark_handled</code><span>handled / renewed · board updates</span></li>
+            <li><code>suggest_prep_checklist</code><span>2–5 concrete prep steps</span></li>
           </ol>
           <p class="hint" id="webmcp-help"></p>
         </section>
@@ -93,6 +94,7 @@
         <div class="spine" id="spine" aria-hidden="true"></div>
         <div class="stage-head">
           <h2 id="board">Upcoming deadlines</h2>
+          <p class="stage-sub">Seeded Florida desk · Honest Autos lot + Oak St / Bayshore rentals</p>
           <p id="summary">Loading the desk…</p>
         </div>
         <div id="board-list" class="board" role="list"></div>
@@ -117,29 +119,31 @@
 
         <section class="card chat" id="alexa" aria-labelledby="alexa-h">
           <div class="chat-head">
-            <p class="eyebrow">Path B · simulated</p>
-            <h2 id="alexa-h">Alexa+</h2>
+            <p class="eyebrow">Path B · simulated Alexa+</p>
+            <h2 id="alexa-h">Alexa+ simulator</h2>
+            <p class="chat-sub">Utterance → real tool call → same in-memory store. Watch <strong>Last tool</strong> and Agent activity.</p>
           </div>
           <div id="chat-log" class="chat-log" aria-live="polite">
             <div class="bubble assistant">
-              Ask me what renews soon. I call the same tools as the board — not a stub.
+              Path B demo: I am a simulated Alexa+ agent. Ask what renews soon — I call <code>list_upcoming_deadlines</code> on this Worker, not a stub.
             </div>
           </div>
-          <div class="chips">
-            <button type="button" data-chip="What renews in the next 30 days?">30-day renewals</button>
-            <button type="button" data-chip="Show insurance deadlines in 90 days">Insurance</button>
-            <button type="button" data-chip="Prep checklist for the selected deadline">Prep checklist</button>
-            <button type="button" data-chip="Mark the selected deadline handled">Mark handled</button>
+          <div class="chips" aria-label="Alexa+ demo chips">
+            <button type="button" data-chip="What renews in the next 30 days?" title="Calls list_upcoming_deadlines">30-day renewals</button>
+            <button type="button" data-chip="Show insurance deadlines in 90 days" title="Calls list_upcoming_deadlines · insurance">Insurance 90d</button>
+            <button type="button" data-chip="What dealer tags or registration renew soon?" title="Registration / tags filter">Dealer tags</button>
+            <button type="button" data-chip="Prep checklist for the selected deadline" title="Calls suggest_prep_checklist">Prep checklist</button>
+            <button type="button" data-chip="Mark the selected deadline handled" title="Calls mark_handled">Mark handled</button>
           </div>
           <form id="chat-form" class="chat-form">
             <input
               id="chat-input"
               type="text"
-              placeholder="Alexa, what tags expire this month?"
+              placeholder="Alexa, what tags expire this month on the lot?"
               autocomplete="off"
-              aria-label="Alexa+ message"
+              aria-label="Alexa+ simulator message"
             />
-            <button type="submit" class="btn">Ask</button>
+            <button type="submit" class="btn">Ask Alexa+</button>
           </form>
         </section>
       </aside>
@@ -147,11 +151,14 @@
 
     <footer class="colophon">
       <p>
-        Demo seed data for a Florida landlord + small dealer. In-memory store resets on Worker cold start
-        (dates re-seed relative to today). Not legal, insurance, or tax advice.
+        Demo seed for a Florida landlord + small dealer (Tampa Oak St / Bayshore rentals · Honest Autos lot).
+        In-memory store resets on Worker cold start (dates re-seed relative to today). Not legal, insurance, or tax advice.
       </p>
       <p>
-        MIT licensed · Amazon Developer Hackathon 2026 · Alexa+ track (Path B)
+        MIT · <a href="https://amazonappdev2026.devpost.com/">Amazon Developer Hackathon 2026</a> · Alexa+ Path B ·
+        <a href="https://deadline-desk.oldhambyron.workers.dev">Live</a> ·
+        <a href="https://youtu.be/BQkXYTpgLiY">Demo video</a> ·
+        <a href="https://github.com/RonnyKane/deadline-desk">Repo</a>
       </p>
     </footer>
     <script type="module" src="/app.js"></script>
